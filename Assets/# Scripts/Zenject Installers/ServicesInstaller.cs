@@ -6,6 +6,7 @@ public class ServicesInstaller : MonoInstaller
     {
         Container.Bind<InputService>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<SettingService>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.Bind<ResourceService>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<UIService>().FromComponentInHierarchy().AsSingle().NonLazy();
     }
 }

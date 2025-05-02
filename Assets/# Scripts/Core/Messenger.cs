@@ -196,7 +196,7 @@ namespace RGames.Infrastucture
     /// <summary>
     /// Интерфейс передачи сообщений (MPI)
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam Name="T"></typeparam>
     static public class Messenger<T>
     {
         static public void AddListener(string eventType, Action<T> handler)
@@ -269,8 +269,8 @@ namespace RGames.Infrastucture
     /// <summary>
     /// Интерфейс передачи сообщений (MPI)
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="U"></typeparam>
+    /// <typeparam Name="T"></typeparam>
+    /// <typeparam Name="U"></typeparam>
     static public class Messenger<T, U>
     {
         static public void AddListener(string eventType, Action<T, U> handler)
@@ -343,9 +343,9 @@ namespace RGames.Infrastucture
     /// <summary>
     /// Интерфейс передачи сообщений (MPI)
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="U"></typeparam>
-    /// <typeparam name="V"></typeparam>
+    /// <typeparam Name="T"></typeparam>
+    /// <typeparam Name="U"></typeparam>
+    /// <typeparam Name="V"></typeparam>
     static public class Messenger<T, U, V>
     {
         static public void AddListener(string eventType, Action<T, U, V> handler)
