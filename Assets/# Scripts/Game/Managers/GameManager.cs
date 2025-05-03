@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour, IGameManager
 {
     [Inject] private InputService _inputService;
 
-    public ReactiveProperty<GameState> CurrentGameState { get; private set; } = new();
+    public static GameManager Instance;
+
+    public ReactiveProperty<GameState> CurrentGameState { get; } = new();
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
 
 
@@ -17,7 +19,7 @@ public class GameManager : MonoBehaviour, IGameManager
         Status.Subscribe(OnManagerStatusChangedHandler);
 
         Status.Value = ManagerStatus.Initializing;
-
+        Instance = this;
         _inputService.EscapeIsDown.Subscribe(OnEscapeDownHandler).AddTo(this);
 
         print("Game Manager is initialized");
@@ -31,15 +33,21 @@ public class GameManager : MonoBehaviour, IGameManager
         Status.Value = ManagerStatus.Started;
     }
 
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
 
     public void ChangeGameState(GameState state)
     {
         if (state == GameState.Paused)
         {
+            Cursor.lockState = CursorLockMode.None;
             print("Игра приостановлена");
         }
         else
         {
+            Cursor.lockState = CursorLockMode.Locked;
             print("Игра возобновлена");
         }
 

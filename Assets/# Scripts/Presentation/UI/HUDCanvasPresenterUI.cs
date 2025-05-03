@@ -27,6 +27,8 @@ public class HUDCanvasPresenterUI : ScreenBase
 
     private async UniTask ShowHintAsync(string line)
     {
+        if (line is null) return;
+
         _textHint.text = "";
 
         foreach (char c in line)
