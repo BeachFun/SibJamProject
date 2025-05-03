@@ -255,3 +255,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ac1539ffa2c08489f01d939ff2842b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 6c99afc4dcb74c64682530d84ec9d254, type: 2}
