@@ -14,7 +14,7 @@ public class SpeechData : ScriptableObject
         [Header("Lists must have same length")]
         public List<string> SpeechLines;
         public List<string> ResponsesEffect;// hardcode
-        public float SpeechSpeed;
+        public int charPerSecond;
         public float MonologueTimeToDisappear;
         public bool LockPlayer;
     }
