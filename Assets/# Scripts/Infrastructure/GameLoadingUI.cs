@@ -2,13 +2,15 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 public class GameLoadingUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text _textField;
     [SerializeField] private float _delayBetweenLines = 1.5f;
-    [SerializeField] private float _charPrintDelay = 0.03f;
     [SerializeField] private float _dotAnimationDelay = 0.4f;
+
+    [Inject] private SettingService _settingService;
 
     private void Start()
     {
@@ -40,7 +42,7 @@ public class GameLoadingUI : MonoBehaviour
         foreach (char c in line)
         {
             _textField.text += c;
-            await UniTask.Delay((int)(_charPrintDelay * 1000));
+            await UniTask.Delay((int)(_settingService.CharPrintDelay * 1000));
         }
     }
 
