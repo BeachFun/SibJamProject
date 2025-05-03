@@ -15,8 +15,9 @@ MonoBehaviour:
   <ID>k__BackingField: 0
   <SpeechTemplates>k__BackingField:
   - SpeakerData: {fileID: 0}
-    Text: 
-    ResponsesText: []
+    IsResponse: 0
+    SpeechLines: []
     ResponsesEffect: []
-    TypewriterEffect: 0
+    charPerSecond: 0
+    MonologueTimeToDisappear: 0
     LockPlayer: 0
