@@ -19,12 +19,16 @@ public class SpeechControllerUI : MonoBehaviour
     [SerializeField] private Transform contentPanel;
     [SerializeField] private Button buttonPrefab;
 
-    private CancellationTokenSource _cts; // Для управления печатью
+    private CancellationTokenSource _cts; // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     private List<Button> responseButtons;
 
     private void Start()
     {
-        speechManager.speechData.SkipLatestValueOnSubscribe().Subscribe(data => ShowSpeech(data));
+        try
+        {
+            speechManager.speechData.SkipLatestValueOnSubscribe().Subscribe(data => ShowSpeech(data));
+        }
+        catch { }
     }
 
     private async UniTaskVoid ShowSpeech(SpeechData data)
@@ -50,10 +54,10 @@ public class SpeechControllerUI : MonoBehaviour
                 {
                     bool wasInterrupted = await TypeSpeech(replica, speechTemplate.SpeakerData.Sound);
 
-                    // Если прервали — продолжаем к следующей реплике
+                    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     if (wasInterrupted)
                     {
-                        Debug.Log("Реплика была прервана. Переходим к следующей.");
+                        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
                     }
                 }
             }
@@ -80,11 +84,11 @@ public class SpeechControllerUI : MonoBehaviour
 
             await UniTask.Delay(TimeSpan.FromSeconds(2), cancellationToken: _cts.Token);
             _cts.Dispose();
-            return false; // Не было прерывания
+            return false; // пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
         catch (OperationCanceledException)
         {
-            textSpeech.text = speech; // Мгновенно показываем весь текст
+            textSpeech.text = speech; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             _cts.Dispose();
             return true;
         }
@@ -100,7 +104,7 @@ public class SpeechControllerUI : MonoBehaviour
     {
         if (_cts != null && !_cts.IsCancellationRequested)
         {
-            _cts.Cancel(); // Отменяем текущее печатание
+            _cts.Cancel(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
     }
 
