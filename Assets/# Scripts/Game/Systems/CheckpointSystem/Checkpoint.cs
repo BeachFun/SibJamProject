@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Zenject;
+using RGames.Core;
 
 public class Checkpoint : MonoBehaviour, IActivatable
 {

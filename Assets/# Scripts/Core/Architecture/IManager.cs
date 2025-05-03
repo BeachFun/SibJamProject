@@ -1,7 +1,17 @@
-﻿namespace RGames.Core
+﻿using UniRx;
+
+namespace RGames.Core
 {
     public interface IManager
     {
-        ManagerStatus Status { get; }
+        ReactiveProperty<ManagerStatus> Status { get; }
+    }
+
+    public enum ManagerStatus
+    {
+        NonInitialized,
+        Initializing,
+        Started,
+        Suspended
     }
 }

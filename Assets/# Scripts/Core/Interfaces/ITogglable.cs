@@ -1,4 +1,7 @@
-﻿public interface ITogglable
+﻿namespace RGames.Core
 {
-    void Toogle();
+    public interface ITogglable
+    {
+        void Toogle();
+    }
 }

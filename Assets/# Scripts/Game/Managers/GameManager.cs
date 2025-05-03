@@ -9,12 +9,12 @@ public class GameManager : MonoBehaviour, IGameManager
     [Inject] private InputService _inputService;
 
     public ReactiveProperty<GameState> CurrentGameState { get; private set; } = new();
-    public ManagerStatus Status { get; private set; }
+    public ReactiveProperty<ManagerStatus> Status { get; } = new();
 
 
     private void Awake()
     {
-        Status = ManagerStatus.Initializing;
+        Status.Value = ManagerStatus.Initializing;
 
         _inputService.EscapeIsDown.Subscribe(OnEscapeDownHandler).AddTo(this);
 
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour, IGameManager
         ChangeGameState(GameState.Played);
 
         print("Game Manager is Started");
-        Status = ManagerStatus.Started;
+        Status.Value = ManagerStatus.Started;
     }
 
 

@@ -3,10 +3,16 @@ using UniRx;
 
 public class CheckpointManager : MonoBehaviour
 {
-    public ReactiveProperty<Checkpoint> CurrentCheckpoint { get; private set; } = new();
+    [Header("Settings")]
+    [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private ReactiveProperty<Checkpoint> _currentCheckpoint;
+
+    public Transform SpawnPoint => _spawnPoint;
+    public ReactiveProperty<Checkpoint> CurrentCheckpoint => _currentCheckpoint;
+
 
     public void SwapCheckpoint(Checkpoint point)
     {
-        CurrentCheckpoint.Value = point;
+        _currentCheckpoint.Value = point;
     }
 }
