@@ -17,8 +17,7 @@ public class MainMenuControllerUI : ScreenBase
 
     public void NewGame()
     {
-        SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
-        SceneManager.LoadSceneAsync("Game");
+        SceneManager.LoadSceneAsync("Loading");
     }
 
     public void LoadGame()

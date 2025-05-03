@@ -6,6 +6,8 @@ public class BootstrapLoader : MonoBehaviour
 {
     [SerializeField] private float _loadDelay;
     [SerializeField] private string _sceneName = "MainMenu";
+
+
     private void Start()
     {
         LoadMainMenu();
