@@ -4,5 +4,5 @@ using UnityEngine;
 public class SpeakerData : ScriptableObject
 {
     public string Name;
-    //public Audio sound;
+    public AudioClip Sound;
 }

@@ -8,5 +8,6 @@ public class GameManagersInstaller : MonoInstaller
         Container.Bind<CheckpointManager>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<PlayerManager>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<SpeechManager>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.Bind<SoundManager>().FromComponentInHierarchy().AsSingle().NonLazy();
     }
 }

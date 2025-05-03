@@ -7,17 +7,20 @@ using UnityEngine.UI;
 using Zenject;
 using System.Threading;
 using static SpeechData;
+using System.Collections.Generic;
 
 public class SpeechControllerUI : MonoBehaviour
 {
     [Inject] private SpeechManager speechManager;
     [Inject] private InputService inputService;
+    [Inject] private SoundManager soundManager;
 
     [SerializeField] private TextMeshProUGUI textSpeech;
     [SerializeField] private Transform contentPanel;
     [SerializeField] private Button buttonPrefab;
 
     private CancellationTokenSource _cts; // Для управления печатью
+    private List<Button> responseButtons;
 
     private void Start()
     {
@@ -32,17 +35,20 @@ public class SpeechControllerUI : MonoBehaviour
         {
             if (speechTemplate.IsResponse)
             {
-                foreach (string response in speechTemplate.SpeechLines)
+                for (int i = 0; i < speechTemplate.SpeechLines.Count; i++)
                 {
+                    textSpeech.text = "";
                     Button newButton = Instantiate(buttonPrefab, contentPanel);
-                    newButton.GetComponentInChildren<TextMeshProUGUI>().text = response;
+                    newButton.GetComponentInChildren<TextMeshProUGUI>().text = speechTemplate.SpeechLines[i];
+                    newButton.onClick.AddListener(() => OnResponseChosen(speechTemplate.ResponsesEffect[i]));
+                    responseButtons.Add(newButton);
                 }
             }
             else
             {
                 foreach (string replica in speechTemplate.SpeechLines)
                 {
-                    bool wasInterrupted = await TypeSpeech(replica, charsPerSecond: 10);
+                    bool wasInterrupted = await TypeSpeech(replica, speechTemplate.SpeakerData.Sound);
 
                     // Если прервали — продолжаем к следующей реплике
                     if (wasInterrupted)
@@ -56,7 +62,7 @@ public class SpeechControllerUI : MonoBehaviour
         escapeDisposable.Dispose();
     }
 
-    private async UniTask<bool> TypeSpeech(string speech, int charsPerSecond = 10)
+    private async UniTask<bool> TypeSpeech(string speech, AudioClip sound, int charsPerSecond = 10)
     {
         textSpeech.text = "";
         float delay = 1f / charsPerSecond;
@@ -68,6 +74,7 @@ public class SpeechControllerUI : MonoBehaviour
             foreach (char c in speech)
             {
                 textSpeech.text += c;
+                soundManager.PlaySound(sound);
                 await UniTask.Delay(TimeSpan.FromSeconds(1f / charsPerSecond), cancellationToken: _cts.Token);
             }
 
@@ -82,7 +89,13 @@ public class SpeechControllerUI : MonoBehaviour
             return true;
         }
     }
-
+    private void OnResponseChosen(string responseEffect)
+    {
+        foreach(Button button in responseButtons)
+            button.onClick.RemoveAllListeners();
+        responseButtons.Clear();
+        speechManager.HandleResponse(responseEffect);
+    }
     private void OnEscapePressed()
     {
         if (_cts != null && !_cts.IsCancellationRequested)

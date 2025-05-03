@@ -7,7 +7,7 @@ public class SpeechData : ScriptableObject
     [field: SerializeField] public int ID {  get; private set; }
     [field: SerializeField] public List<SpeechTemplate> SpeechTemplates { get; private set; }
     [Serializable]
-    public struct SpeechTemplate
+    public class SpeechTemplate
     {
         public SpeakerData SpeakerData;
         public bool IsResponse;
@@ -15,7 +15,7 @@ public class SpeechData : ScriptableObject
         public List<string> SpeechLines;
         public List<string> ResponsesEffect;// hardcode
         public int charPerSecond;
-        public float MonologueTimeToDisappear;
+        public float MonologueTimeToDisappear = 5f;
         public bool LockPlayer;
     }
 }
