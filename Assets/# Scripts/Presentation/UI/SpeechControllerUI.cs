@@ -1,28 +1,30 @@
+using Cysharp.Threading.Tasks;
 using System;
 using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using System.Threading.Tasks;
 using static SpeechData;
 
 public class SpeechControllerUI : MonoBehaviour
 {
     [Inject] private SpeechManager speechManager;
     [Inject] private InputService inputService;
-    [SerializeField] private TextMeshPro textSpeech;
+    [SerializeField] private TextMeshProUGUI textSpeech;
     [SerializeField] private Transform contentPanel;
     [SerializeField] private Button buttonPrefab;
     private void Start()
     {
-        speechManager.dialogueData.Subscribe(ShowDialogue);
+        speechManager.speechData.Subscribe(speechData => ShowSpeech(speechData));
     }
 
-    private void ShowDialogue(SpeechData data)
+    private async UniTaskVoid ShowSpeech(SpeechData data)
     {
         foreach (SpeechTemplate speechTemplate in data.SpeechTemplates)
         {
-            if(speechTemplate.IsResponse)
+            if (speechTemplate.IsResponse)
             {
                 foreach (string response in speechTemplate.SpeechLines)
                 {
@@ -35,6 +37,8 @@ public class SpeechControllerUI : MonoBehaviour
                 foreach (string replica in speechTemplate.SpeechLines)
                 {
                     TypeSpeech(replica);
+
+                    await UniTask.Delay(TimeSpan.FromSeconds(2), cancellationToken: destroyCancellationToken);
                 }
             }
         }
