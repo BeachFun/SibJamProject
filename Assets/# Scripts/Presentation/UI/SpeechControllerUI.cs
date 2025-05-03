@@ -21,7 +21,7 @@ public class SpeechControllerUI : MonoBehaviour
 
     private void Start()
     {
-        speechManager.speechData.Subscribe(data => ShowSpeech(data));
+        speechManager.speechData.SkipLatestValueOnSubscribe().Subscribe(data => ShowSpeech(data));
     }
 
     private async UniTaskVoid ShowSpeech(SpeechData data)
