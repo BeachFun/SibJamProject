@@ -1,26 +1,32 @@
 using UnityEngine;
-using UniRx;
 using Zenject;
 
 public class SpeechEntity : MonoBehaviour
 {
-    [SerializeField] private int dialogueID;
+    [SerializeField] private int speachID;
+    [SerializeField] private bool isInteractive = true;
     [Inject] private SpeechManager dialogueManager;
 
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player") && isInteractive)
         {
-            dialogueManager.CurrentSpeechID.Value = dialogueID;
+            dialogueManager.CurrentSpeechID.Value = speachID;
         }
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player") && isInteractive)
         {
             dialogueManager.CurrentSpeechID.Value = -1;
         }
+    }
+
+    public void ShowSpeech()
+    {
+        dialogueManager.CurrentSpeechID.Value = speachID;
+        dialogueManager.ShowSpeech();
     }
 }

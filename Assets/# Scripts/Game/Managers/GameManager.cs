@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour, IGameManager
 
     public void ChangeGameState(GameState state)
     {
-        if (state == GameState.Paused)
+        if (state == GameState.Paused || state == GameState.Dialogue)
         {
             Cursor.lockState = CursorLockMode.None;
             print("Игра приостановлена");

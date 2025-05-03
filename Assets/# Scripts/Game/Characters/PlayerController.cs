@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour, ICharacter
 
     private void OnGameStateChangedHandler(GameState state)
     {
-        if (state == GameState.Paused)
+        if (state == GameState.Paused || state == GameState.Dialogue)
         {
             _fpsController.enabled = false;
         }

@@ -21,7 +21,7 @@ public class TriggerZone : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            action.Invoke();
+            actionOnExit.Invoke();
         }
     }
 }

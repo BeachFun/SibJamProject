@@ -8,6 +8,7 @@ public class SpeechManager : MonoBehaviour, IManager
 {
     [Inject] private ResourceService resourceService;
     [Inject] private InputService inputService;
+    [Inject] private IGameManager gameManager;
 
     public ReactiveProperty<SpeechData> speechData = new();
 
@@ -21,6 +22,7 @@ public class SpeechManager : MonoBehaviour, IManager
 
         Status.Value = ManagerStatus.Initializing;
         inputService.Intaraction.Subscribe(OnInteractionE).AddTo(this);
+        gameManager.CurrentGameState.Subscribe(OnGameStateUpdatedHandler);
     }
 
     private void Start()
@@ -31,7 +33,14 @@ public class SpeechManager : MonoBehaviour, IManager
 
     public void ShowSpeech()
     {
+        if (Status.Value != ManagerStatus.Started) return;
+
         SpeechData dialogueData = resourceService.GetSpeechDataByID(CurrentSpeechID.Value);
+        CurrentSpeechID.Value = -1;
+
+        if (dialogueData != null && dialogueData.LockPlayer)
+            gameManager.CurrentGameState.Value = GameState.Dialogue;
+
         speechData.SetValueAndForceNotify(dialogueData);
     }
 
@@ -52,5 +61,17 @@ public class SpeechManager : MonoBehaviour, IManager
     private void OnManagerStatusChangedHandler(ManagerStatus status)
     {
         string info = $"{nameof(HintManager)} is {status.ToString()}";
+    }
+
+    private void OnGameStateUpdatedHandler(GameState gameState)
+    {
+        if (gameState == GameState.Paused)
+        {
+            Status.Value = ManagerStatus.Suspended;
+        }
+        else
+        {
+            Status.Value = ManagerStatus.Started;
+        }
     }
 }
