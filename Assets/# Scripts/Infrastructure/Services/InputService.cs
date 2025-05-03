@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class InputService : MonoBehaviour
 {
-    public ReactiveProperty<bool> EscapeIsDown { get; private set; } = new();
+    public ReactiveProperty<bool> EscapeIsDown { get; } = new();
+    public ReactiveProperty<bool> Intaraction { get; } = new();
 
 
     private void Awake()
@@ -19,5 +20,6 @@ public class InputService : MonoBehaviour
     private void Update()
     {
         EscapeIsDown.Value = Input.GetKeyDown(KeyCode.Escape);
+        Intaraction.Value = Input.GetKeyDown(KeyCode.E);
     }
 }
