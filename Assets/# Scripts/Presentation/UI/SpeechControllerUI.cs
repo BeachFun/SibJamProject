@@ -33,11 +33,17 @@ public class SpeechControllerUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-
     private async void ShowSpeech(SpeechData data)
     {
-        if (data is null) return;
-        this.gameObject.SetActive(true);
+        if (data is null)
+        {
+            ToggleSpeech(false);
+        }
+        else
+        {
+            ToggleSpeech(true, data.SpeechTemplates[0].LockPlayer);
+            this.gameObject.SetActive(true);
+        }
 
         var escapeDisposable = inputService.EscapeIsDown.Subscribe(OnEscapePressed);
 
@@ -71,7 +77,11 @@ public class SpeechControllerUI : MonoBehaviour
 
         escapeDisposable.Dispose();
     }
+    private void ToggleSpeech(bool state, bool lockPlayer = false)
+    {
+        gameObject.SetActive(state);
 
+    }
     private async UniTask<bool> TypeSpeech(string speech, AudioClip sound, int charsPerSecond = 10)
     {
         textSpeech.text = "";

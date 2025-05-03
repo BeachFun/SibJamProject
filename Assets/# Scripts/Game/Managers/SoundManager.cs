@@ -6,9 +6,6 @@ using Zenject;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
-    [Inject] ResourceService resourceService;
-
-    public ReactiveProperty<ManagerStatus> Status => throw new System.NotImplementedException();
 
     public void PlaySound(AudioClip sound)
     {
