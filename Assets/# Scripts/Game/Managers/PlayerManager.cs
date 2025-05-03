@@ -35,7 +35,7 @@ public class PlayerManager : MonoBehaviour, IManager
             Destroy(Player);
         }
 
-        if (_playerPrefab != null) return;
+        if (_playerPrefab == null) return;
 
         // Выбор места спавна
         Checkpoint checkPoint = _checkpointManager.CurrentCheckpoint.Value;

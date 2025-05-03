@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     private const string HorizontalInput = "Horizontal";
     private const string VerticalInput = "Vertical";
 
-    public ReactiveProperty<CharacterStatus> Status { get; private set; }
+    public ReactiveProperty<CharacterStatus> Status { get; private set; } = new();
 
 
     private void Start()
