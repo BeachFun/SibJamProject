@@ -98,6 +98,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-ffc1c327cd7cd8d409918da489393d01-873891223-0
         - globalObjectIdString: GlobalObjectId_V1-2-ffc1c327cd7cd8d409918da489393d01-1466908417-0
         - globalObjectIdString: GlobalObjectId_V1-2-ffc1c327cd7cd8d409918da489393d01-852742900-0
+        - globalObjectIdString: GlobalObjectId_V1-2-ffc1c327cd7cd8d409918da489393d01-3441185159808271782-8934212105468501309
         values:
         - colorIndex: 0
           iconNameOrGuid: Settings Icon
@@ -107,6 +108,8 @@ MonoBehaviour:
           iconNameOrGuid: AvatarMask On Icon
         - colorIndex: 0
           iconNameOrGuid: Canvas Icon
+        - colorIndex: 0
+          iconNameOrGuid: Settings Icon
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-51a9342bc74466e44ad4c74bfc8c7448-1020440602-0

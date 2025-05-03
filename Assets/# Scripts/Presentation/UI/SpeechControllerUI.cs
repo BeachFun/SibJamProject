@@ -22,18 +22,24 @@ public class SpeechControllerUI : MonoBehaviour
     private CancellationTokenSource _cts; // ��� ���������� �������
     private List<Button> responseButtons;
 
-    private void Start()
+
+    private void Awake()
     {
-        try
-        {
-            speechManager.speechData.SkipLatestValueOnSubscribe().Subscribe(data => ShowSpeech(data));
-        }
-        catch { }
+        speechManager.speechData.Subscribe(ShowSpeech);
     }
 
-    private async UniTaskVoid ShowSpeech(SpeechData data)
+    private void Start()
     {
-        var escapeDisposable = inputService.EscapeIsDown.Subscribe(_ => OnEscapePressed());
+        this.gameObject.SetActive(false);
+    }
+
+
+    private async void ShowSpeech(SpeechData data)
+    {
+        if (data is null) return;
+        this.gameObject.SetActive(true);
+
+        var escapeDisposable = inputService.EscapeIsDown.Subscribe(OnEscapePressed);
 
         foreach (SpeechTemplate speechTemplate in data.SpeechTemplates)
         {
@@ -52,7 +58,7 @@ public class SpeechControllerUI : MonoBehaviour
             {
                 foreach (string replica in speechTemplate.SpeechLines)
                 {
-                    bool wasInterrupted = await TypeSpeech(replica, speechTemplate.SpeakerData.Sound);
+                    bool wasInterrupted = await TypeSpeech(replica, speechTemplate?.SpeakerData.Sound);
 
                     // ���� �������� � ���������� � ��������� �������
                     if (wasInterrupted)
@@ -100,8 +106,10 @@ public class SpeechControllerUI : MonoBehaviour
         responseButtons.Clear();
         speechManager.HandleResponse(responseEffect);
     }
-    private void OnEscapePressed()
+    private void OnEscapePressed(bool keyState)
     {
+        if (!keyState) return;
+
         if (_cts != null && !_cts.IsCancellationRequested)
         {
             _cts.Cancel(); // �������� ������� ���������

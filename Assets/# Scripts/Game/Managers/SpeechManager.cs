@@ -3,6 +3,7 @@ using RGames.Core;
 using UniRx;
 using UnityEngine;
 using Zenject;
+
 public class SpeechManager : MonoBehaviour, IManager
 {
     [Inject] private ResourceService resourceService;
@@ -19,7 +20,7 @@ public class SpeechManager : MonoBehaviour, IManager
         Status.Subscribe(OnManagerStatusChangedHandler);
 
         Status.Value = ManagerStatus.Initializing;
-        inputService.Intaraction.Subscribe(OnInteract).AddTo(this);
+        inputService.Intaraction.Subscribe(OnInteractionE).AddTo(this);
     }
 
     private void Start()
@@ -28,10 +29,10 @@ public class SpeechManager : MonoBehaviour, IManager
     }
 
 
-    public void ShowSpeech() => ShowSpeech(CurrentSpeechID.Value);
-    public void ShowSpeech(int ID)
+    public void ShowSpeech()
     {
-        speechData.SetValueAndForceNotify(resourceService.GetSpeechDataByID(ID));
+        SpeechData dialogueData = resourceService.GetSpeechDataByID(CurrentSpeechID.Value);
+        speechData.SetValueAndForceNotify(dialogueData);
     }
 
     public void HandleResponse(string responseEffect)
@@ -40,11 +41,12 @@ public class SpeechManager : MonoBehaviour, IManager
     }
 
 
-    private void OnInteract(bool keyState)
+    // Callbacks
+    private void OnInteractionE(bool keyState)
     {
         if (!keyState || CurrentSpeechID.Value == -1) return;
 
-        ShowSpeech(this.CurrentSpeechID.Value);
+        ShowSpeech();
     }
 
     private void OnManagerStatusChangedHandler(ManagerStatus status)

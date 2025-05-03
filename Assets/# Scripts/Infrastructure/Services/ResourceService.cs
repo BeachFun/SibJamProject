@@ -9,7 +9,7 @@ public class ResourceService: MonoBehaviour
     {
         if (dialogues == null)
         {
-            dialogues = Resources.LoadAll<SpeechData>("Speech"); // Путь относительно Resources
+            dialogues = Resources.LoadAll<SpeechData>("Speech"); // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Resources
         }
 
         foreach (SpeechData dialogue in dialogues)
@@ -20,7 +20,7 @@ public class ResourceService: MonoBehaviour
             }
         }
 
-        Debug.LogWarning($"Не найден объект типа SpeechData с ID: {targetID}");
+        Debug.LogWarning($"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ SpeechData пїЅ ID: {targetID}");
         return null;
     }
 }
