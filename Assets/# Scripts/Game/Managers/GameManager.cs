@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour, IGameManager
 
     private void Awake()
     {
+        Status.Subscribe(OnManagerStatusChangedHandler);
+
         Status.Value = ManagerStatus.Initializing;
 
         _inputService.EscapeIsDown.Subscribe(OnEscapeDownHandler).AddTo(this);
@@ -68,5 +70,10 @@ public class GameManager : MonoBehaviour, IGameManager
         {
             ChangeGameState(GameState.Paused);
         }
+    }
+
+    private void OnManagerStatusChangedHandler(ManagerStatus status)
+    {
+        string info = $"{nameof(HintManager)} is {status.ToString()}";
     }
 }

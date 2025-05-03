@@ -12,6 +12,8 @@ public class HintManager : MonoBehaviour, IManager
 
     private void Awake()
     {
+        Status.Subscribe(OnManagerStatusChangedHandler);
+
         Status.Value = ManagerStatus.Initializing;
         _speechManager.CurrentSpeechID.Subscribe(OnDialogueUpdatedHandler).AddTo(this);
     }
@@ -34,5 +36,10 @@ public class HintManager : MonoBehaviour, IManager
         {
             Hint.Value = "Нажмите 'E', чтобы начать диалог";
         }
+    }
+
+    private void OnManagerStatusChangedHandler(ManagerStatus status)
+    {
+        string info = $"{nameof(HintManager)} is {status.ToString()}";
     }
 }

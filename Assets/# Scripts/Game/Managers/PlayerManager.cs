@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour, IManager
 
     private void Awake()
     {
+        Status.Subscribe(OnManagerStatusChangedHandler);
         Status.Value = ManagerStatus.Initializing;
     }
 
@@ -75,6 +76,10 @@ public class PlayerManager : MonoBehaviour, IManager
         }
     }
 
+    private void OnManagerStatusChangedHandler(ManagerStatus status)
+    {
+        string info = $"{nameof(HintManager)} is {status.ToString()}";
+    }
 
     #region Unity API
 

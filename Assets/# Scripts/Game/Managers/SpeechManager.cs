@@ -16,6 +16,8 @@ public class SpeechManager : MonoBehaviour, IManager
 
     private void Awake()
     {
+        Status.Subscribe(OnManagerStatusChangedHandler);
+
         Status.Value = ManagerStatus.Initializing;
         inputService.Intaraction.Subscribe(OnInteract).AddTo(this);
     }
@@ -43,5 +45,10 @@ public class SpeechManager : MonoBehaviour, IManager
         if (!keyState || CurrentSpeechID.Value == -1) return;
 
         ShowSpeech(this.CurrentSpeechID.Value);
+    }
+
+    private void OnManagerStatusChangedHandler(ManagerStatus status)
+    {
+        string info = $"{nameof(HintManager)} is {status.ToString()}";
     }
 }
