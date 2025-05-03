@@ -1,4 +1,7 @@
-﻿public interface IActivatable
+﻿namespace RGames.Core
 {
-    void Activate();
+    public interface IActivatable
+    {
+        void Activate();
+    }
 }

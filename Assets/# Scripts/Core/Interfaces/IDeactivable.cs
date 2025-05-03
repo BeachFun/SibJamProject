@@ -1,4 +1,7 @@
-﻿public interface IDeactivable
+﻿namespace RGames.Core
 {
-    void Deactivate();
+    public interface IDeactivable
+    {
+        void Deactivate();
+    }
 }
