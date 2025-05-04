@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbad6020951624b4997d20e38512e0e3, type: 3}
   m_Name: "\u0414\u0438\u0430\u043B\u043E\u0433 8"
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: 0
+  <ID>k__BackingField: 8
   <SpeechTemplates>k__BackingField:
   - <SpeakerData>k__BackingField: {fileID: 11400000, guid: 62272182d241479429ae6f48b72ff241, type: 2}
     <IsResponse>k__BackingField: 0
