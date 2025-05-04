@@ -2,6 +2,7 @@
 using Zenject;
 using UniRx;
 using RGames.Core;
+using System;
 
 public class PlayerManager : MonoBehaviour, IManager
 {
@@ -12,6 +13,9 @@ public class PlayerManager : MonoBehaviour, IManager
 
     public PlayerController Player { get; private set; }
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
+
+
+    public event Action OnKill;
 
 
     private void Awake()
@@ -49,7 +53,7 @@ public class PlayerManager : MonoBehaviour, IManager
         Player = Instantiate(_playerPrefab, point.position, point.rotation)
                 .GetComponent<PlayerController>();
 
-        Player.Status.Subscribe(OnKill);
+        Player.Status.Subscribe(OnKillHandler);
 
         // Поворот игрока
         Vector3 pos = point.transform.position;
@@ -58,7 +62,7 @@ public class PlayerManager : MonoBehaviour, IManager
         Player.transform.rotation = point.transform.rotation;
     }
 
-    public void OnKill(CharacterStatus status)
+    public void OnKillHandler(CharacterStatus status)
     {
         if (status != CharacterStatus.Died) return;
 
@@ -74,6 +78,8 @@ public class PlayerManager : MonoBehaviour, IManager
             Player.transform.rotation = point.transform.rotation;
             //Player._fpsController.m_CharacterController.enabled = true;
         }
+
+        OnKill?.Invoke();
     }
 
     private void OnManagerStatusChangedHandler(ManagerStatus status)
