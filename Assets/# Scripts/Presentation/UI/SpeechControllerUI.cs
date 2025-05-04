@@ -100,7 +100,7 @@ public class SpeechControllerUI : MonoBehaviour, IManager
                 }
 
                 // Задержка до тех пор, пока игрок не нажмет кнопку
-                while(m_isStopInRespnoce) await UniTask.Delay(200);
+                await UniTask.WaitWhile(() => m_isStopInRespnoce);
             }
             // Вывод текста
             else
@@ -120,6 +120,9 @@ public class SpeechControllerUI : MonoBehaviour, IManager
                     {
                         _ctsDelay.Dispose();
                     }
+
+                    // Задержка если игра на паузе
+                    await UniTask.WaitWhile(() => speechManager.Status.Value != ManagerStatus.Started);
                 }
             }
         }
@@ -143,6 +146,10 @@ public class SpeechControllerUI : MonoBehaviour, IManager
             {
                 textSpeech.text += c;
                 soundManager.PlaySound(sound);
+
+                // Задержка если игра на паузе
+                await UniTask.WaitWhile(() => speechManager.Status.Value != ManagerStatus.Started);
+
                 await UniTask.Delay((int)charDelay*1000, cancellationToken: _ctsTyped.Token);
             }
 
@@ -160,6 +167,8 @@ public class SpeechControllerUI : MonoBehaviour, IManager
 
     private void OnResponseChosed(SpeachButtonUI buttonUI)
     {
+        if (speechManager.Status.Value != ManagerStatus.Started) return;
+
         // Очистка перед закрытием
         m_isStopInRespnoce = false;
         HelperClass.ClearChildren(contentPanel);
@@ -170,7 +179,7 @@ public class SpeechControllerUI : MonoBehaviour, IManager
 
     private void OnSkipTypedPressed(bool keyState)
     {
-        if (!keyState) return;
+        if (!keyState || speechManager.Status.Value != ManagerStatus.Started) return;
 
         if (_ctsTyped != null && !_ctsTyped.IsCancellationRequested)
         {

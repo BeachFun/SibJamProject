@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using Zenject;
 
 public class SoundManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(AudioClip sound)
     {
+        if (audioSource == null) return;
+
         audioSource.clip = sound;
         audioSource.Play();
     }
