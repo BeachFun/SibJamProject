@@ -93,6 +93,22 @@ public class PursuitManager : MonoBehaviour, IManager
             PursuitState.Transition => _intervalTransition,
             _ => _intervalPursuit
         };
+
+        switch (pursuitState)
+        {
+            case PursuitState.None:
+                _gameManager.CurrentGameState.SetValueAndForceNotify(GameState.Played);
+                break;
+            case PursuitState.Suspense:
+                _gameManager.CurrentGameState.SetValueAndForceNotify(GameState.Suspense);
+                break;
+            case PursuitState.Transition:
+                _gameManager.CurrentGameState.SetValueAndForceNotify(GameState.PursuitTransition);
+                break;
+            case PursuitState.Pursuit:
+                _gameManager.CurrentGameState.SetValueAndForceNotify(GameState.Pursuit);
+                break;
+        }
     }
 }
 
