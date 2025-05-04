@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour, IManager
 
     public PlayerController Player { get; private set; }
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
+    public ReactiveProperty<int> Health { get; } = new();
 
 
     public event Action OnKill;
@@ -62,22 +63,30 @@ public class PlayerManager : MonoBehaviour, IManager
         Player.transform.rotation = point.transform.rotation;
     }
 
-    public void OnKillHandler(CharacterStatus status)
+    public void RespawnPlayer()
+    {
+        // Выбор места респавна
+        Checkpoint checkPoint = _checkpointManager.CurrentCheckpoint.Value;
+        Transform point;
+        if (checkPoint != null)
+            point = checkPoint.transform;
+        else
+            point = _checkpointManager.SpawnPoint;
+
+        // Поворот игрока
+        Vector3 pos = point.transform.position;
+        pos.y += 2f;
+        Player.transform.position = pos;
+        Player.transform.rotation = point.transform.rotation;
+    }
+
+
+    private void OnKillHandler(CharacterStatus status)
     {
         if (status != CharacterStatus.Died) return;
 
-        Checkpoint point = _checkpointManager.CurrentCheckpoint.Value;
-
-        if (point is null) SpawnPlayer();
-        else
-        {
-            //Player._fpsController.m_CharacterController.enabled = false;
-            Vector3 pos = point.transform.position;
-            pos.y += 2f;
-            Player.transform.position = pos;
-            Player.transform.rotation = point.transform.rotation;
-            //Player._fpsController.m_CharacterController.enabled = true;
-        }
+        Health.Value -= 1;
+        RespawnPlayer();
 
         OnKill?.Invoke();
     }
@@ -89,6 +98,7 @@ public class PlayerManager : MonoBehaviour, IManager
 
     #region Unity API
 
+    [ContextMenu("Убить игрока")]
     public void KillPlayer() => Player?.Kill();
 
     #endregion

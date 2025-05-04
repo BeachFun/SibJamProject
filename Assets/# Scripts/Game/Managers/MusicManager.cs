@@ -25,6 +25,7 @@ public class MusicManager : MonoBehaviour, IManager
     private float _volume1;
     private float _volume2;
     private ManagerStatus _lastStatus;
+    private GameState _lastGameState = GameState.Suspense;
 
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
 
@@ -56,7 +57,6 @@ public class MusicManager : MonoBehaviour, IManager
 
         _isBusy = !_isBusy;
     }
-
 
     private void Shutdown(AudioSource source)
     {
@@ -110,7 +110,12 @@ public class MusicManager : MonoBehaviour, IManager
 
     private void OnGameStateChangedHandler(GameState state)
     {
-        switch(state)
+        if (state == _lastGameState)
+            return;
+
+        _lastGameState = state;
+
+        switch (state)
         {
             case GameState.Played: ChangeClip(_ambientClip); break;
             case GameState.Suspense: ChangeClip(_suspenseClip); break;
@@ -118,15 +123,12 @@ public class MusicManager : MonoBehaviour, IManager
             case GameState.Pursuit: ChangeClip(_pursuitClip); break;
         }
 
-        if (state == GameState.Paused)
+        var newStatus = state == GameState.Paused ? ManagerStatus.Suspended : ManagerStatus.Started;
+
+        if (Status.Value != newStatus)
         {
             _lastStatus = Status.Value;
-            Status.Value = ManagerStatus.Suspended;
-        }
-        else
-        {
-            _lastStatus = Status.Value;
-            Status.Value = ManagerStatus.Started;
+            Status.Value = newStatus;
         }
     }
 
