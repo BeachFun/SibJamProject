@@ -28,10 +28,10 @@ public class WolfController : MonoBehaviour, IManager
 
     private void FixedUpdate()
     {
-        if (Status.Value != ManagerStatus.Started || Target.Value == null) return;
+        //if (Status.Value != ManagerStatus.Started || Target.Value == null) return;
 
-        Vector3 direction = (Target.Value.transform.position - transform.position).normalized;
-        transform.position += direction * _baseSpeed * Time.fixedDeltaTime;
+        //Vector3 direction = (Target.Value.transform.position - transform.position).normalized;
+        //transform.position += direction * _baseSpeed * Time.fixedDeltaTime;
     }
 
     private void OnTriggerEnter(Collider other)

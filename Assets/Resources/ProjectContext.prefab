@@ -88,9 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b410ac0ae890d0348b147a8a1fdc3a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _screenHashTable:
-  - screenName: Credits
-    screenPrefab: {fileID: 5718751559724709239, guid: 6e818b687f4eb324ebdea6f277a6578a, type: 3}
+  _screenHashTable: []
 --- !u!1 &3360460623121542350
 GameObject:
   m_ObjectHideFlags: 0
