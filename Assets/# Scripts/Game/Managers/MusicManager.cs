@@ -31,8 +31,16 @@ public class MusicManager : MonoBehaviour, IManager
 
     private void Awake()
     {
+        _volume1 = _source1.volume;
+        _volume2 = _source2.volume;
+
         _gameManager.CurrentGameState.Subscribe(OnGameStateChangedHandler).AddTo(this);
         this.Status.Subscribe(OnManagerStatusChangedHandler).AddTo(this);
+    }
+
+    private void Start()
+    {
+        OnGameStateChangedHandler(_gameManager.CurrentGameState.Value);
     }
 
 
