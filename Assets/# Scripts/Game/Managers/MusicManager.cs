@@ -38,11 +38,6 @@ public class MusicManager : MonoBehaviour, IManager
         this.Status.Subscribe(OnManagerStatusChangedHandler).AddTo(this);
     }
 
-    private void Start()
-    {
-        OnGameStateChangedHandler(_gameManager.CurrentGameState.Value);
-    }
-
 
     public void ChangeClip(AudioClip clip)
     {
@@ -115,7 +110,7 @@ public class MusicManager : MonoBehaviour, IManager
 
     private void OnGameStateChangedHandler(GameState state)
     {
-        switch (state)
+        switch(state)
         {
             case GameState.Played: ChangeClip(_ambientClip); break;
             case GameState.Suspense: ChangeClip(_suspenseClip); break;
