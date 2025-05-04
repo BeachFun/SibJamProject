@@ -23,7 +23,8 @@ public class SpeechControllerUI : MonoBehaviour, IManager
 
     private bool m_isStopInRespnoce;
     private SpeechData _speechData;
-    private CancellationTokenSource _cts;
+    private CancellationTokenSource _ctsTyped;
+    private CancellationTokenSource _ctsDelay;
     private List<SpeachButtonUI> responseButtons = new();
 
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
@@ -66,7 +67,16 @@ public class SpeechControllerUI : MonoBehaviour, IManager
         _speechData = data;
         ShowSpeech(true);
 
-        var escapeDisposable = inputService.DialogueSkip.Subscribe(OnSpacePressed);
+        IDisposable typedDisposable = null, delayDisposable = null;
+
+        if (_speechData.IsMonologue)
+        {
+            typedDisposable = inputService.DialogueSkip.Subscribe(OnSkipTypedPressed);
+        }
+        else
+        {
+            delayDisposable = inputService.Mouse0Press.Subscribe(OnSkipDelay);
+        }
 
         foreach (SpeechData.SpeechTemplate speechTemplate in data.SpeechTemplates)
         {
@@ -99,13 +109,23 @@ public class SpeechControllerUI : MonoBehaviour, IManager
                 {
                     await TypeSpeech(speechTemplate.SpeechLines[i], speechTemplate?.SpeakerData.Sound, speechTemplate.charPerSecond);
 
-                    if (speechTemplate.IsDelayInEnd)
-                        await UniTask.Delay((int)speechTemplate.IntervalBetweenSpeechLines*1000);
+                    _ctsDelay = new CancellationTokenSource();
+
+                    try
+                    {
+                        if (speechTemplate.IsDelayInEnd)
+                            await UniTask.Delay((int)speechTemplate.IntervalBetweenSpeechLines * 1000, cancellationToken: _ctsDelay.Token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        _ctsDelay.Dispose();
+                    }
                 }
             }
         }
 
-        escapeDisposable.Dispose();
+        typedDisposable?.Dispose();
+        delayDisposable?.Dispose();
 
         ShowSpeech(false);
     }
@@ -115,7 +135,7 @@ public class SpeechControllerUI : MonoBehaviour, IManager
         textSpeech.text = "";
         float charDelay = 1f / charsPerSecond;
 
-        _cts = new CancellationTokenSource();
+        _ctsTyped = new CancellationTokenSource();
 
         try
         {
@@ -123,16 +143,16 @@ public class SpeechControllerUI : MonoBehaviour, IManager
             {
                 textSpeech.text += c;
                 soundManager.PlaySound(sound);
-                await UniTask.Delay((int)charDelay*1000, cancellationToken: _cts.Token);
+                await UniTask.Delay((int)charDelay*1000, cancellationToken: _ctsTyped.Token);
             }
 
-            _cts.Dispose();
+            _ctsTyped.Dispose();
             return false;
         }
         catch (OperationCanceledException)
         {
             textSpeech.text = speech;
-            _cts.Dispose();
+            _ctsTyped.Dispose();
             return true;
         }
     }
@@ -148,20 +168,33 @@ public class SpeechControllerUI : MonoBehaviour, IManager
         speechManager.HandleResponse(buttonUI.ResponceEffect);
     }
 
-    private void OnSpacePressed(bool keyState)
+    private void OnSkipTypedPressed(bool keyState)
     {
-        if (!keyState || _speechData.IsMonologue) return;
+        if (!keyState) return;
 
-        if (_cts != null && !_cts.IsCancellationRequested)
+        if (_ctsTyped != null && !_ctsTyped.IsCancellationRequested)
         {
             try
             {
-                _cts.Cancel(); // Пропуск диалоговой фразы
+                _ctsTyped.Cancel(); // Пропуск диалоговой фразы
             }
             catch { }
         }
     }
 
+    private void OnSkipDelay(bool keyState)
+    {
+        if (!keyState) return;
+
+        if (_ctsDelay != null && !_ctsDelay.IsCancellationRequested)
+        {
+            try
+            {
+                _ctsDelay.Cancel(); // Пропуск паузы между диалогами
+            }
+            catch { }
+        }
+    }
 
     private void OnGameStateUpdatedHandler(GameState gameState)
     {

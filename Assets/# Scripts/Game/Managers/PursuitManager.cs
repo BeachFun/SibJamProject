@@ -59,7 +59,7 @@ public class PursuitManager : MonoBehaviour, IManager
 
     private void OnGameStateChangedHandler(GameState state)
     {
-        if (state == GameState.Paused)
+        if (state == GameState.Paused || state == GameState.Dialogue)
         {
             _ManagerIsOn = false;
             Status.Value = ManagerStatus.Suspended;
