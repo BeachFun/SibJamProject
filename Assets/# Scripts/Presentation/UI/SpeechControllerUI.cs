@@ -19,12 +19,12 @@ public class SpeechControllerUI : MonoBehaviour, IManager
     [SerializeField] private TextMeshProUGUI textSpeackerName;
     [SerializeField] private TextMeshProUGUI textSpeech;
     [SerializeField] private Transform contentPanel;
-    [SerializeField] private Button buttonPrefab;
+    [SerializeField] private SpeachButtonUI buttonPrefab;
 
     private bool m_isStopInRespnoce;
     private SpeechData _speechData;
     private CancellationTokenSource _cts;
-    private List<Button> responseButtons = new();
+    private List<SpeachButtonUI> responseButtons = new();
 
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
 
@@ -37,7 +37,6 @@ public class SpeechControllerUI : MonoBehaviour, IManager
 
     private void Start()
     {
-        HelperClass.ClearChildren(contentPanel);
         ShowSpeech(false);
         Status.Value = ManagerStatus.Started;
     }
@@ -45,6 +44,16 @@ public class SpeechControllerUI : MonoBehaviour, IManager
 
     private void ShowSpeech(bool isShow)
     {
+        if (isShow)
+        {
+            if (_speechData != null && _speechData.LockPlayer)
+                gameManager.CurrentGameState.Value = GameState.Dialogue;
+        }
+        else
+        {
+            gameManager.CurrentGameState.Value = GameState.Played;
+        }
+
         gameObject.SetActive(isShow);
     }
 
@@ -53,8 +62,10 @@ public class SpeechControllerUI : MonoBehaviour, IManager
     {
         if (Status.Value != ManagerStatus.Started || data is null) return;
 
-        ShowSpeech(true);
+        HelperClass.ClearChildren(contentPanel);
         _speechData = data;
+        ShowSpeech(true);
+
         var escapeDisposable = inputService.DialogueSkip.Subscribe(OnSpacePressed);
 
         foreach (SpeechData.SpeechTemplate speechTemplate in data.SpeechTemplates)
@@ -70,13 +81,10 @@ public class SpeechControllerUI : MonoBehaviour, IManager
                 m_isStopInRespnoce = true;
                 for (int i = 0; i < speechTemplate.SpeechLines.Count; i++)
                 {
-                    Button newButton = Instantiate(buttonPrefab, contentPanel);
-                    newButton.GetComponentInChildren<TextMeshProUGUI>().text = speechTemplate.SpeechLines[i];
-                    newButton.onClick.AddListener(() =>
-                    {
-                        m_isStopInRespnoce = false;
-                        OnResponseChosed(speechTemplate.ResponsesEffect[i]);
-                    });
+                    SpeachButtonUI newButton = Instantiate<SpeachButtonUI>(buttonPrefab, contentPanel);
+                    newButton.Content = speechTemplate.SpeechLines[i];
+                    newButton.ResponceEffect = speechTemplate.ResponsesEffect[i];
+                    newButton.OnClick += OnResponseChosed;
 
                     responseButtons.Add(newButton);
                 }
@@ -130,13 +138,14 @@ public class SpeechControllerUI : MonoBehaviour, IManager
     }
 
 
-    private void OnResponseChosed(string responseEffect)
+    private void OnResponseChosed(SpeachButtonUI buttonUI)
     {
         // Очистка перед закрытием
+        m_isStopInRespnoce = false;
         HelperClass.ClearChildren(contentPanel);
 
         // Отправка ответа
-        speechManager.HandleResponse(responseEffect);
+        speechManager.HandleResponse(buttonUI.ResponceEffect);
     }
 
     private void OnSpacePressed(bool keyState)
@@ -145,7 +154,11 @@ public class SpeechControllerUI : MonoBehaviour, IManager
 
         if (_cts != null && !_cts.IsCancellationRequested)
         {
-            _cts.Cancel(); // Пропуск диалоговой фразы
+            try
+            {
+                _cts.Cancel(); // Пропуск диалоговой фразы
+            }
+            catch { }
         }
     }
 

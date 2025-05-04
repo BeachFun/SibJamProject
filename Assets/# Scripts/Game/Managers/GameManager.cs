@@ -7,6 +7,8 @@ using RGames.Core;
 public class GameManager : MonoBehaviour, IGameManager
 {
     [Inject] private InputService _inputService;
+    private GameState _lastGameState;
+
 
     public static GameManager Instance;
 
@@ -16,20 +18,17 @@ public class GameManager : MonoBehaviour, IGameManager
 
     private void Awake()
     {
-        Status.Subscribe(OnManagerStatusChangedHandler);
+        CurrentGameState.Subscribe(OnChangeGameStateHandler);
 
         Status.Value = ManagerStatus.Initializing;
         Instance = this;
         _inputService.EscapeIsDown.Subscribe(OnEscapeDownHandler).AddTo(this);
-
-        print("Game Manager is initialized");
     }
 
     private void Start()
     {
-        ChangeGameState(GameState.Played);
+        CurrentGameState.Value = GameState.Played;
 
-        print("Game Manager is Started");
         Status.Value = ManagerStatus.Started;
     }
 
@@ -38,21 +37,6 @@ public class GameManager : MonoBehaviour, IGameManager
         Instance = null;
     }
 
-    public void ChangeGameState(GameState state)
-    {
-        if (state == GameState.Paused || state == GameState.Dialogue)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            print("Игра приостановлена");
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            print("Игра возобновлена");
-        }
-
-        CurrentGameState.Value = state;
-    }
 
     public void RestartGame()
     {
@@ -72,16 +56,26 @@ public class GameManager : MonoBehaviour, IGameManager
 
         if (CurrentGameState.Value == GameState.Paused)
         {
-            ChangeGameState(GameState.Played);
+            CurrentGameState.Value = _lastGameState;
         }
         else
         {
-            ChangeGameState(GameState.Paused);
+            _lastGameState = CurrentGameState.Value;
+            CurrentGameState.Value = GameState.Paused;
         }
     }
 
-    private void OnManagerStatusChangedHandler(ManagerStatus status)
+    public void OnChangeGameStateHandler(GameState state)
     {
-        string info = $"{nameof(HintManager)} is {status.ToString()}";
+        if (state == GameState.Paused || state == GameState.Dialogue)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            print("Игра приостановлена");
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            print("Игра возобновлена");
+        }
     }
 }

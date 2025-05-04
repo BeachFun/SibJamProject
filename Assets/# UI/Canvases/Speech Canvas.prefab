@@ -471,7 +471,7 @@ MonoBehaviour:
   textSpeackerName: {fileID: 8482314414244249334}
   textSpeech: {fileID: 1659101890428605598}
   contentPanel: {fileID: 4422558460046107641}
-  buttonPrefab: {fileID: 8840979975090993820, guid: 48853bdd0976c93478e358d583d6b534, type: 3}
+  buttonPrefab: {fileID: 4439873035578856669, guid: 48853bdd0976c93478e358d583d6b534, type: 3}
 --- !u!1 &6686711665730271188
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,14 +729,14 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8842428870702557462}
-  - {fileID: 1629863126058472357}
   - {fileID: 5869972256912442364}
+  - {fileID: 1629863126058472357}
   m_Father: {fileID: 8020977373927673980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 2000, y: 240}
+  m_SizeDelta: {x: -108, y: 240}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &675436390933196412
 CanvasRenderer:

@@ -19,7 +19,7 @@ public class PauseMenuControllerUI : ScreenBase
 
     public void Resume()
     {
-        _gameManager?.ChangeGameState(GameState.Played);
+        _gameManager?.CurrentGameState.SetValueAndForceNotify(GameState.Played);
     }
 
     public void Restart()

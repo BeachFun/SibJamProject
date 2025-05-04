@@ -38,9 +38,6 @@ public class SpeechManager : MonoBehaviour, IManager
         SpeechData dialogueData = resourceService.GetSpeechDataByID(CurrentSpeechID.Value);
         CurrentSpeechID.Value = -1;
 
-        if (dialogueData != null && dialogueData.LockPlayer)
-            gameManager.CurrentGameState.Value = GameState.Dialogue;
-
         speechData.SetValueAndForceNotify(dialogueData);
     }
 
