@@ -28,6 +28,7 @@ public class PursuitManager : MonoBehaviour, IManager
         _gameManager.CurrentGameState.Subscribe(OnGameStateChangedHandler).AddTo(this);
 
         this.Timer.Subscribe(OnTimerUpdatedHandler).AddTo(this);
+        Timer.Value = _intervalNone;
         this._pursuitState.Subscribe(OnPursuitStateUpdatedHandler).AddTo(this);
 
         _playerManager.OnKill += OnPlayerKilledHandler;
