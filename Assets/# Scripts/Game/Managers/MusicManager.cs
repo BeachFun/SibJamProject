@@ -35,10 +35,13 @@ public class MusicManager : MonoBehaviour, IManager
         _volume1 = _source1.volume;
         _volume2 = _source2.volume;
 
-        _gameManager.CurrentGameState.Subscribe(OnGameStateChangedHandler).AddTo(this);
         this.Status.Subscribe(OnManagerStatusChangedHandler).AddTo(this);
     }
 
+    private void Start()
+    {
+        _gameManager.CurrentGameState.Subscribe(OnGameStateChangedHandler).AddTo(this);
+    }
 
     public void ChangeClip(AudioClip clip)
     {
