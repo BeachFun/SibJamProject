@@ -33,5 +33,27 @@ MonoBehaviour:
     <charPerSecond>k__BackingField: 10
     <IntervalBetweenSpeechLines>k__BackingField: 5
     <IsDelayInEnd>k__BackingField: 1
+  - <SpeakerData>k__BackingField: {fileID: 11400000, guid: d248157108f79e747b331e6e77cea23b, type: 2}
+    <IsResponse>k__BackingField: 1
+    <SpeechLines>k__BackingField:
+    - "\u041F\u0440\u043E\u0432\u0435\u0434\u0438 \u043F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430"
+    - "\u041D\u0435 \u0441\u0442\u043E\u0438\u0442"
+    <ResponsesEffect>k__BackingField:
+    - "\u041F\u0440\u043E\u0432\u0435\u0434\u0438 \u043F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430"
+    - "\u041D\u0435 \u0441\u0442\u043E\u0438\u0442"
+    <charPerSecond>k__BackingField: 10
+    <IntervalBetweenSpeechLines>k__BackingField: 5
+    <IsDelayInEnd>k__BackingField: 1
+  - <SpeakerData>k__BackingField: {fileID: 11400000, guid: d248157108f79e747b331e6e77cea23b, type: 2}
+    <IsResponse>k__BackingField: 1
+    <SpeechLines>k__BackingField:
+    - "\u041F\u0440\u043E\u0432\u0435\u0434\u0438 \u043F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430"
+    - "\u041D\u0435 \u0441\u0442\u043E\u0438\u0442"
+    <ResponsesEffect>k__BackingField:
+    - "\u041F\u0440\u043E\u0432\u0435\u0434\u0438 \u043F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430"
+    - "\u041D\u0435 \u0441\u0442\u043E\u0438\u0442"
+    <charPerSecond>k__BackingField: 10
+    <IntervalBetweenSpeechLines>k__BackingField: 5
+    <IsDelayInEnd>k__BackingField: 1
   <LockPlayer>k__BackingField: 1
   <IsMonologue>k__BackingField: 0
