@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: 08cbcdeac645300468d51d1ca6ea1368
+guid: 3e73038889e659942962b221f48b990f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: StorytellerMat
-    second: {fileID: 8240374165263782672, guid: b19ac1417c0924544a4d7bf538d96ac0, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
