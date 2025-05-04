@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour, IManager
 
     public PlayerController Player { get; private set; }
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
-    public ReactiveProperty<int> Health { get; } = new();
+    public ReactiveProperty<int> Health { get; } = new(7);
 
 
     public event Action OnKill;
@@ -86,7 +86,7 @@ public class PlayerManager : MonoBehaviour, IManager
         if (status != CharacterStatus.Died) return;
 
         Health.Value -= 1;
-        RespawnPlayer();
+        if (Health.Value > 0) RespawnPlayer();
 
         OnKill?.Invoke();
     }

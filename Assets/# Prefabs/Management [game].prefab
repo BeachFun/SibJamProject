@@ -466,6 +466,7 @@ Transform:
   - {fileID: 6023162525832661289}
   - {fileID: 1245012367970979675}
   - {fileID: 2843632539189618220}
+  - {fileID: 6541692438218356652}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3800864561222181413
@@ -562,7 +563,8 @@ MonoBehaviour:
   _intervalSuspense: 60
   _intervalTransition: 10
   _intervalPursuit: 130
-  pursuitState: 0
+  _pursuitState:
+    value: 0
 --- !u!1 &5856215386222340381
 GameObject:
   m_ObjectHideFlags: 0
@@ -927,3 +929,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 4459864850019384750, guid: 8f1254d688a92d14eab93f88a4d7e92d, type: 3}
+--- !u!1 &8750680377974383794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6541692438218356652}
+  - component: {fileID: 4455471035059207066}
+  m_Layer: 0
+  m_Name: GameOver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6541692438218356652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750680377974383794}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3369133464876558809}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4455471035059207066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750680377974383794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baf74f5c8ec2184a80c42a801c95ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
