@@ -10,5 +10,6 @@ public class GameManagersInstaller : MonoInstaller
         Container.Bind<SpeechManager>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<HintManager>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<SoundManager>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.Bind<MusicManager>().FromComponentInHierarchy().AsSingle().NonLazy();
     }
 }
