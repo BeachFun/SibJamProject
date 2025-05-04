@@ -5,6 +5,7 @@ public interface IGameManager : IManager
 {
     ReactiveProperty<GameState> CurrentGameState { get; }
 
+    void Resume();
     void ExitGame();
     void RestartGame();
 }

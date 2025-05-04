@@ -11,16 +11,26 @@ public class PursuitManager : MonoBehaviour, IManager
     [SerializeField] private float _intervalTransition = 10f;
     [SerializeField] private float _intervalPursuit = 130f;
 
+    [Header("Wolf settings")]
+    [SerializeField] private Transform _spawnPointDefault;
+    [SerializeField] private WolfController _wolfPrefab;
+
     [Header("Debug")]
     [SerializeField] private ReactiveProperty<PursuitState> _pursuitState = new();
+
 
     [Inject] IGameManager _gameManager;
     [Inject] PlayerManager _playerManager;
 
     private bool _ManagerIsOn = true;
+    private bool _isSudoSpawn;
+    private WolfController _currentWolf;
 
+    public Vector3? SpawnPos { get; set; }
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
     public ReactiveProperty<float> Timer { get; } = new();
+    public ReactiveProperty<PursuitState> PursState => _pursuitState;
+
 
 
     private void Awake()
@@ -50,7 +60,6 @@ public class PursuitManager : MonoBehaviour, IManager
     {
         if (_ManagerIsOn) Timer.Value -= Time.fixedDeltaTime;
     }
-
 
 
     private void OnPlayerKilledHandler()
@@ -98,6 +107,7 @@ public class PursuitManager : MonoBehaviour, IManager
         switch (pursuitState)
         {
             case PursuitState.None:
+                DestroyWolf();
                 _gameManager.CurrentGameState.SetValueAndForceNotify(GameState.Played);
                 break;
             case PursuitState.Suspense:
@@ -108,8 +118,33 @@ public class PursuitManager : MonoBehaviour, IManager
                 break;
             case PursuitState.Pursuit:
                 _gameManager.CurrentGameState.SetValueAndForceNotify(GameState.Pursuit);
+                SpawnWolf();
                 break;
         }
+    }
+
+    public void SudoSpawn()
+    {
+        _isSudoSpawn = true;
+        _pursuitState.Value = PursuitState.Transition;
+    }
+
+    private void SpawnWolf()
+    {
+        _currentWolf = Instantiate(_wolfPrefab.gameObject).GetComponent<WolfController>();
+        _currentWolf.gameObject.transform.position = SpawnPos ?? _spawnPointDefault.transform.position;
+        _currentWolf.Target.Value = _playerManager.Player;
+
+        if (!_isSudoSpawn)
+            _currentWolf.DoubleSpeed();
+    }
+
+    public void DestroyWolf()
+    {
+        SpawnPos = null;
+
+        if (_currentWolf is not null)
+            Destroy(_currentWolf.gameObject);
     }
 }
 

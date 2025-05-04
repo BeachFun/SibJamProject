@@ -563,6 +563,8 @@ MonoBehaviour:
   _intervalSuspense: 60
   _intervalTransition: 10
   _intervalPursuit: 130
+  _spawnPointDefault: {fileID: 0}
+  _wolfPrefab: {fileID: -214913979610407564, guid: 8e33f82b287b8264091ef403f487de94, type: 3}
   _pursuitState:
     value: 0
 --- !u!1 &5856215386222340381

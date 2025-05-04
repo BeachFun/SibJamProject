@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour, IGameManager
 
     public static GameManager Instance;
 
-    public ReactiveProperty<GameState> CurrentGameState { get; } = new();
+    [field: SerializeField] public ReactiveProperty<GameState> CurrentGameState { get; } = new();
     public ReactiveProperty<ManagerStatus> Status { get; } = new();
 
 
@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour, IGameManager
         Instance = null;
     }
 
+
+    public void Resume()
+    {
+        CurrentGameState.SetValueAndForceNotify(_lastGameState);
+    }
 
     public void RestartGame()
     {

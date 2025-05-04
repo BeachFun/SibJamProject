@@ -3,7 +3,12 @@ guid: 4354970ce6b99a74f8a64cf75e621e26
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WolfMat
+    second: {fileID: 2100000, guid: 708135699b023c043a6ef32304785930, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
