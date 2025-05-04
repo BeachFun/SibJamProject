@@ -12,6 +12,6 @@ public class GameManagersInstaller : MonoInstaller
         Container.Bind<SoundManager>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<MusicManager>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<PursuitManager>().FromComponentInHierarchy().AsSingle().NonLazy();
-        Container.Bind<GameOverManager>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.Bind<GameoverManager>().FromComponentInHierarchy().AsSingle().NonLazy();
     }
 }

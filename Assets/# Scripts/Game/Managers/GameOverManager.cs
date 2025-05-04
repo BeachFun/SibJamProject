@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-public class GameOverManager : MonoBehaviour
+public class GameoverManager : MonoBehaviour
 {
     [Inject] IGameManager gameManager;
     [Inject] PlayerManager playerManager;
